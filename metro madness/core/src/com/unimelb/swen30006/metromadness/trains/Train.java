@@ -204,7 +204,7 @@ public class Train {
 		Iterator<Passenger> iterator = this.passengers.iterator();
 		while(iterator.hasNext()){
 			Passenger p = iterator.next();
-			if(this.station.shouldLeave(p)){
+			if(p.shouldLeave(this.station)){
 				logger.info("Passenger "+p.id+" is disembarking at "+this.station.name);
 				disembarking.add(p);
 				iterator.remove();
