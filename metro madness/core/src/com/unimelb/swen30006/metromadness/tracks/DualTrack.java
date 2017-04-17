@@ -24,14 +24,14 @@ public class DualTrack extends Track {
 		renderer.setColor(this.trackColour);
 	}
 	
-	@Override
+	/*@Override
 	public void enter(Train t){
 		if(t.forward){
 			this.forwardOccupied = true;
 		} else {
 			this.backwardOccupied = true;
 		}
-	}
+	}*/
 
 	@Override
 	public boolean canEnter(boolean forward) {
@@ -42,19 +42,30 @@ public class DualTrack extends Track {
 		}
 	}
 
-	@Override
+	/*@Override
 	public void leave(Train t) {
 		if(t.forward){
 			this.forwardOccupied = false;
 		} else {
 			this.backwardOccupied = false;
 		}
+	}*/
+	
+	@Override
+	public void setOccupied(boolean direction){
+		if(direction){
+			this.forwardOccupied = true;
+		} else {
+			this.backwardOccupied = true;
+		}
 	}
 	
-	
-	
-	
-	
-
-
+	@Override
+	public void setAvailable(boolean direction){
+		if(direction){
+			this.forwardOccupied = false;
+		} else {
+			this.backwardOccupied = false;
+		}
+	}
 }

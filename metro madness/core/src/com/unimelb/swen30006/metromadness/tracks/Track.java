@@ -29,9 +29,9 @@ public class Track {
 		return !this.occupied;
 	}
 	
-	public void enter(Train t){
+	/*public void enter(Train t){
 		this.occupied = true;
-	}
+	}*/
 	
 	@Override
 	public String toString() {
@@ -39,7 +39,15 @@ public class Track {
 				+ occupied + "]";
 	}
 
-	public void leave(Train t){
+	/*public void leave(Train t){
+		this.occupied = false;
+	}*/
+	
+	public void setOccupied(boolean direction){
+		this.occupied = true;
+	}
+	
+	public void setAvailable(boolean direction){
 		this.occupied = false;
 	}
 }

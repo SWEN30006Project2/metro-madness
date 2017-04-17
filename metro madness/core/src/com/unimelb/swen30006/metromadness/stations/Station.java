@@ -53,16 +53,31 @@ public class Station {
 		renderer.circle(this.position.x, this.position.y, radius, NUM_CIRCLE_STATMENTS);		
 	}
 	
-	public void enter(Train t) throws Exception {
+	/*public void enter(Train t) throws Exception {
 		if(trains.size() >= PLATFORMS){
 			throw new Exception();
 		} else {
 			this.trains.add(t);
 		}
-	}
+	}*/
 	
+	public void arrivedTrain(Train t) throws Exception {
+		if(trains.size() >= PLATFORMS){
+			throw new Exception();
+		} else {
+			this.trains.add(t);
+		}
+    }
 	
-	public void depart(Train t) throws Exception {
+	/*public void depart(Train t) throws Exception {
+		if(this.trains.contains(t)){
+			this.trains.remove(t);
+		} else {
+			throw new Exception();
+		}
+	}*/
+	
+	public void departedTrain(Train t) throws Exception {
 		if(this.trains.contains(t)){
 			this.trains.remove(t);
 		} else {

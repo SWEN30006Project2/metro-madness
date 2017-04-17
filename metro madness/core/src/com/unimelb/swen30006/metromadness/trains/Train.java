@@ -32,7 +32,6 @@ public class Train {
 	public static final float TRAIN_SPEED=50f;
 	
 	// The train's name
-	
 	public String name;
 
 	// The line that this is traveling on
@@ -89,9 +88,8 @@ public class Train {
 			// We have our station initialized we just need to retrieve the next track, enter the
 			// current station officially and mark as in station
 			try {
-				if(this.station.canEnter(this.trainLine)){
-					
-					this.station.enter(this);
+				if(this.station.canEnter(this.trainLine)){	
+					enterStation();
 					this.pos = (Point2D.Float) this.station.position.clone();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
@@ -143,13 +141,13 @@ public class Train {
 					// Find the next
 					Station next = this.trainLine.nextStation(this.station, this.forward);
 					// Depart our current station
-					this.station.depart(this);
+					leaveStation();
 					this.station = next;
 
 				} catch (Exception e) {
 //					e.printStackTrace();
 				}
-				this.track.enter(this);
+				enterTrack();
 				this.state = State.ON_ROUTE;
 			}		
 			break;
@@ -174,9 +172,9 @@ public class Train {
 			// then we need to enter, otherwise we just wait
 			try {
 				if(this.station.canEnter(this.trainLine)){
-					this.track.leave(this);
+					leaveTrack();
 					this.pos = (Point2D.Float) this.station.position.clone();
-					this.station.enter(this);
+					enterStation();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
 				}
@@ -185,7 +183,6 @@ public class Train {
 			}
 			break;
 		}
-
 
 	}
 
@@ -238,4 +235,25 @@ public class Train {
 		}
 	}
 	
+	public void enterTrack(){
+		this.track.setOccupied(this.forward);
+	}
+	
+	public void leaveTrack(){
+		this.track.setAvailable(this.forward);
+	}
+	
+	public void enterStation(){
+		try{
+		    this.station.arrivedTrain(this);
+		}catch(Exception e){
+		}
+	}
+	
+	public void leaveStation(){
+		try{
+		    this.station.departedTrain(this);
+		}catch(Exception e){
+		}
+	}
 }

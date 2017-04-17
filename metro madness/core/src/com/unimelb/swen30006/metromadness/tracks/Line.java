@@ -113,6 +113,6 @@ public class Line {
 		for(Track t: this.tracks){
 			t.render(renderer);
 		}	
-	}
+	} 
 	
 }

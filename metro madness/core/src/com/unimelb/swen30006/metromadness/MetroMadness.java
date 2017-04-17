@@ -26,7 +26,7 @@ public class MetroMadness extends ApplicationAdapter {
     int VIEWPORT_WIDTH=200;
 	float viewport_width;
 
-	// Data for simluation, rendering and camera.
+	// Data for simulation, rendering and camera.
 	Simulation sim;
 	ShapeRenderer shapeRenderer;
 	OrthographicCamera camera;
