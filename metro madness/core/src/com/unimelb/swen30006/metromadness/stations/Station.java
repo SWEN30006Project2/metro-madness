@@ -90,7 +90,7 @@ public class Station {
 	}
 
 	public Passenger generatePassenger(int id, Random random, Station s) {
-		return new Passenger(id, random, this, s);
+		return new Passenger(id, random, this, s,this.router);
 	}
 	
 	

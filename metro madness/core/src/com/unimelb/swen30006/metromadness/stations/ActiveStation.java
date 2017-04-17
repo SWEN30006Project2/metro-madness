@@ -22,7 +22,7 @@ public class ActiveStation extends Station {
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 	
-	public ActiveStation(float x, float y, PassengerRouter router, String name, float maxPax) {
+	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
 		this.g = new PassengerGenerator(this, this.lines, maxPax);
