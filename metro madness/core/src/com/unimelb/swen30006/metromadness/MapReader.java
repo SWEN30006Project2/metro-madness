@@ -20,6 +20,8 @@ import com.unimelb.swen30006.metromadness.stations.ActiveStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.trains.BigPassengerTrain;
+import com.unimelb.swen30006.metromadness.trains.LargeCargoTrains;
+import com.unimelb.swen30006.metromadness.trains.SmallCargoTrain;
 import com.unimelb.swen30006.metromadness.trains.SmallPassengerTrain;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
@@ -112,7 +114,11 @@ public class MapReader implements StandardMapReader{
 			return new BigPassengerTrain(l,s,dir,name);
 		} else if (type.equals("SmallPassenger")){
 			return new SmallPassengerTrain(l,s,dir,name);
-		} else {
+		} else if (type.equals("SmallCargo")) {
+			return new SmallCargoTrain(l, s, dir, name);
+		}else if (type.equals("BigCargo")) {
+			return new LargeCargoTrains(l, s, dir, name);
+		}else {
 			return new Train(l, s, dir,name);
 		}
 	}
@@ -127,6 +133,9 @@ public class MapReader implements StandardMapReader{
 		if(type.equals("Active")){
 			int maxPax = e.getInt("max_passengers");
 			return new ActiveStation(x_loc, y_loc, r, name, maxPax);
+		}else if (type.equals("Cargo")) {
+			int maxPax = e.getInt("max_passengers");
+			return new CargoStation(x_loc, y_loc, r, name, maxPax);
 		} else if (type.equals("Passive")){
 			return new Station(x_loc, y_loc, r, name);
 		} else{
