@@ -74,7 +74,7 @@
 			<max_passengers> 100 </max_passengers>
 		</station>
 			<station>
-			<type>Active</type>
+			<type>Cargo</type>
 			<name>Southern Cross</name>
 			<x_loc>2240</x_loc>
 			<y_loc>4800</y_loc>
@@ -82,7 +82,7 @@
 			<max_passengers> 100 </max_passengers>
 		</station>	
 		<station>
-			<type>Active</type>
+			<type>Cargo</type>
 			<name>Flagstaff</name>
 			<x_loc>2240</x_loc>
 			<y_loc>5200</y_loc>
@@ -234,7 +234,7 @@
 			<max_passengers> 100 </max_passengers>
 		</station>	
 		<station>
-			<type>Active</type>
+			<type>Cargo</type>
 			<name>Upfield</name>
 			<x_loc>2440</x_loc>
 			<y_loc>7400</y_loc>
@@ -266,7 +266,7 @@
 			<max_passengers> 100 </max_passengers>
 		</station>
 		<station>
-			<type>Active</type>
+			<type>Cargo</type>
 			<name>Footscray</name>
 			<x_loc>1850</x_loc>
 			<y_loc>5560</y_loc>
@@ -274,7 +274,7 @@
 			<max_passengers> 100 </max_passengers>
 		</station>
 		<station>
-			<type>Active</type>
+			<type>Cargo</type>
 			<name>Williamstown</name>
 			<x_loc>1840</x_loc>
 			<y_loc>4200</y_loc>

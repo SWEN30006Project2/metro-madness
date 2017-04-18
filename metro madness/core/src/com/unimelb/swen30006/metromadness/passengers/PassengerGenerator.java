@@ -6,14 +6,9 @@ import java.util.Random;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 
-public class PassengerGenerator {
-	
-	// Random number generator
-	static final private Random random = new Random(30006);
-	
+public class PassengerGenerator implements PassengerGeneratorAdapter{
 	// Passenger id generator
 	static protected int idGen = 1;
-	
 	
 	// The station that passengers are getting on
 	public Station currentStation;

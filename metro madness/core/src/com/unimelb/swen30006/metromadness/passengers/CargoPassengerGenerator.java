@@ -7,13 +7,34 @@ import com.unimelb.swen30006.metromadness.stations.CargoStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 
-public class CargoPassengerGenerator extends PassengerGenerator {
-	
+public class CargoPassengerGenerator implements PassengerGeneratorAdapter {
+	// Passenger id generator
+		static protected int idGen = 1;
+		
+		
+		// The station that passengers are getting on
+		public Station currentStation;
+		// The line they are travelling on
+		public ArrayList<Line> lines;
+		
+		// The max volume
+		public float maxVolume;
 	public CargoPassengerGenerator(Station station, ArrayList<Line> lines, float max){
-		super(station,lines,max);
+		this.currentStation = station;
+		this.lines = lines;
+		this.maxVolume = max;
+	}
+	
+	public Passenger[] generatePassengers(){
+		int count = random.nextInt(4)+1;
+		Passenger[] passengers = new Passenger[count];
+		for(int i=0; i<count; i++){
+			passengers[i] = generatePassenger(random);
+		}
+		return passengers;
 	}
 
-	@Override
+
 	public Passenger generatePassenger(Random random){
 		// Pick a random station from the line
 		ArrayList<Line> twoMoreCargoStationsLines = new ArrayList<Line>();
@@ -58,5 +79,5 @@ public class CargoPassengerGenerator extends PassengerGenerator {
 		Station targetStation = cargoStations.get(index);
 		
 		return new Passenger(idGen++, random, currentStation, targetStation, currentStation.router);
-	}	
+	}
 }
