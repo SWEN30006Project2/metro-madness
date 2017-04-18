@@ -29,16 +29,16 @@ public class PassengerGenerator {
 		this.maxVolume = max;
 	}
 	
-	public Passenger[] generatePassengers(){
+	public Passenger[] generatePassengers(Station station){
 		int count = random.nextInt(4)+1;
 		Passenger[] passengers = new Passenger[count];
 		for(int i=0; i<count; i++){
-			passengers[i] = generatePassenger(random);
+			passengers[i] = generatePassenger(random,station);
 		}
 		return passengers;
 	}
 	
-	public Passenger generatePassenger(Random random){
+	public Passenger generatePassenger(Random random, Station station){
 		// Pick a random station from the line
 		Line l = this.lines.get(random.nextInt(this.lines.size()));
 		int current_station = l.stations.indexOf(this.s);
@@ -61,7 +61,6 @@ public class PassengerGenerator {
 		}
 		Station s = l.stations.get(index);
 		
-		return this.s.generatePassenger(idGen++, random, s);
+		return new Passenger(idGen++, random, station, s,station.router);
 	}
-	
 }

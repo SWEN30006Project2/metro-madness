@@ -9,6 +9,7 @@ import com.unimelb.swen30006.metromadness.routers.*;
 public class Passenger {
 
 	final public int id;
+    static final private int WITHOUT_CARGO = 0;
 	public Station beginning;
 	public Station destination;
 	public float travelTime;
@@ -22,7 +23,7 @@ public class Passenger {
 		this.destination = end;
 		this.reachedDestination = false;
 		this.travelTime = 0;
-		this.cargo = generateCargo(random);
+		this.cargo = generateCargo(random, start);
 		this.router = router;
 	}
 	
@@ -34,8 +35,11 @@ public class Passenger {
 	public Cargo getCargo(){
 		return cargo;
 	}
-	public Cargo generateCargo(Random random){
-		return new Cargo(random.nextInt(51));
+	public Cargo generateCargo(Random random, Station station){
+		if(station.isCargoStation())
+		    return new Cargo(random.nextInt(51));
+		else
+			return new Cargo(WITHOUT_CARGO);
 	}
 	
 	public class Cargo{
@@ -57,5 +61,4 @@ public class Passenger {
 	public boolean shouldLeave(Station currentStation){
 		return this.router.shouldLeave(currentStation, this);
 	}
-	
 }

@@ -22,8 +22,8 @@ public class ActiveStation extends Station {
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 	
-	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax) {
-		super(x, y, router, name);
+	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax, boolean isCargoStation) {
+		super(x, y, router, name, isCargoStation);
 		this.waiting = new ArrayList<Passenger>();
 		this.g = new PassengerGenerator(this, this.lines, maxPax);
 		this.maxVolume = maxPax;
@@ -88,11 +88,11 @@ public class ActiveStation extends Station {
 			}
 			
 			//Do not add new passengers if there are too many already
-			if (this.waiting.size() > maxVolume){
+			if(this.waiting.size() > maxVolume){
 				return;
 			}
 			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
+			Passenger[] ps = this.g.generatePassengers(this);
 			for(Passenger p: ps){
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
@@ -123,5 +123,4 @@ public class ActiveStation extends Station {
 		renderer.setColor(c);
 		renderer.circle(this.position.x, this.position.y, radius, NUM_CIRCLE_STATMENTS);		
 	}
-
 }

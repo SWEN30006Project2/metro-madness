@@ -16,8 +16,9 @@ public class Simulation {
 	
 	public Simulation(String fileName){
 		// Create a map reader and read in the file
-		MapReader m = new MapReader(fileName);
-		m.process();
+		StandardMapReader m = new MapReader(fileName);
+		
+		//m.process();
 		
 		// Create a list of lines
 		this.lines = new ArrayList<Line>();

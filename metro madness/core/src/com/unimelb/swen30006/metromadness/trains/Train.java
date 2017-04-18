@@ -15,7 +15,6 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.tracks.Track;
 
 public class Train {
-	
 	// Logger
 	private static Logger logger = LogManager.getLogger();
 	// The state that a train can be in 

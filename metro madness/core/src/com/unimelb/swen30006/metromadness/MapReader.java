@@ -23,7 +23,7 @@ import com.unimelb.swen30006.metromadness.trains.BigPassengerTrain;
 import com.unimelb.swen30006.metromadness.trains.SmallPassengerTrain;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
-public class MapReader {
+public class MapReader implements StandardMapReader{
 
 	public ArrayList<Train> trains;
 	public HashMap<String, Station> stations;
@@ -146,7 +146,6 @@ public class MapReader {
 			boolean twoWay = s.getBoolean("double");
 			l.addStation(station, twoWay);
 		}
-		
 		return l;
 	}
 	
