@@ -8,64 +8,28 @@ import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.unimelb.swen30006.metromadness.passengers.CargoPassengerGenerator;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
-import com.unimelb.swen30006.metromadness.passengers.PassengerGenerator;
 import com.unimelb.swen30006.metromadness.routers.PassengerRouter;
 import com.unimelb.swen30006.metromadness.tracks.Line;
+import com.unimelb.swen30006.metromadness.trains.LargeCargoTrain;
+import com.unimelb.swen30006.metromadness.trains.SmallCargoTrain;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
-public class ActiveStation extends Station {
-	// Logger
+public class CargoStation extends Station{
+    
 	private static Logger logger = LogManager.getLogger();
 	
-	public PassengerGenerator g;
+	public CargoPassengerGenerator g;
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 	
-	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax) {
+	public CargoStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
-		this.g = new PassengerGenerator(this, this.lines, maxPax);
+		this.g = new CargoPassengerGenerator(this, this.lines, maxPax);
 		this.maxVolume = maxPax;
 	}
-	
-	@Override
-	/*public void enter(Train t) throws Exception {
-		if(trains.size() >= PLATFORMS){
-			throw new Exception();
-		} else {
-			// Add the train
-			this.trains.add(t);
-			// Add the waiting passengers
-			Iterator<Passenger> pIter = this.waiting.iterator();
-			while(pIter.hasNext()){
-				Passenger p = pIter.next();
-				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
-					pIter.remove();
-				} catch (Exception e){
-					// Do nothing, already waiting
-					break;
-				}
-			}
-			
-			//Do not add new passengers if there are too many already
-			if (this.waiting.size() > maxVolume){
-				return;
-			}
-			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
-			for(Passenger p: ps){
-				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
-				} catch(Exception e){
-					this.waiting.add(p);
-				}
-			}
-		}
-	}*/
 	
 	public void arrivedTrain(Train t) throws Exception {
 		if(trains.size() >= PLATFORMS){
@@ -79,6 +43,7 @@ public class ActiveStation extends Station {
 				Passenger p = pIter.next();
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
+					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
 					t.embark(p);
 					pIter.remove();
 				} catch (Exception e){
@@ -86,17 +51,18 @@ public class ActiveStation extends Station {
 					break;
 				}
 			}
-			
 			//Do not add new passengers if there are too many already
 			if(this.waiting.size() > maxVolume){
 				return;
 			}
+			
 			// Add the new passenger
 			Passenger[] ps = this.g.generatePassengers();
 			for(Passenger p: ps){
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
+					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
+					    t.embark(p);
 				} catch(Exception e){
 					this.waiting.add(p);
 				}
@@ -104,6 +70,7 @@ public class ActiveStation extends Station {
 		}
 	}
 	
+	@Override
 	public void render(ShapeRenderer renderer){
 		float radius = RADIUS;
 		for(int i=0; (i<this.lines.size() && i<MAX_LINES); i++){
@@ -123,4 +90,6 @@ public class ActiveStation extends Station {
 		renderer.setColor(c);
 		renderer.circle(this.position.x, this.position.y, radius, NUM_CIRCLE_STATMENTS);		
 	}
+	
+	
 }

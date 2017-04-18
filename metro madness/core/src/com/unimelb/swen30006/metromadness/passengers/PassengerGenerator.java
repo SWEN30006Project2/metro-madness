@@ -12,36 +12,36 @@ public class PassengerGenerator {
 	static final private Random random = new Random(30006);
 	
 	// Passenger id generator
-	static private int idGen = 1;
+	static protected int idGen = 1;
 	
 	
 	// The station that passengers are getting on
-	public Station s;
+	public Station currentStation;
 	// The line they are travelling on
 	public ArrayList<Line> lines;
 	
 	// The max volume
 	public float maxVolume;
 	
-	public PassengerGenerator(Station s, ArrayList<Line> lines, float max){
-		this.s = s;
+	public PassengerGenerator(Station station, ArrayList<Line> lines, float max){
+		this.currentStation = station;
 		this.lines = lines;
 		this.maxVolume = max;
 	}
 	
-	public Passenger[] generatePassengers(Station station){
+	public Passenger[] generatePassengers(){
 		int count = random.nextInt(4)+1;
 		Passenger[] passengers = new Passenger[count];
 		for(int i=0; i<count; i++){
-			passengers[i] = generatePassenger(random,station);
+			passengers[i] = generatePassenger(random);
 		}
 		return passengers;
 	}
 	
-	public Passenger generatePassenger(Random random, Station station){
+	public Passenger generatePassenger(Random random){
 		// Pick a random station from the line
 		Line l = this.lines.get(random.nextInt(this.lines.size()));
-		int current_station = l.stations.indexOf(this.s);
+		int current_station = l.stations.indexOf(this.currentStation);
 		boolean forward = random.nextBoolean();
 		
 		// If we are the end of the line then set our direction forward or backward
@@ -59,8 +59,8 @@ public class PassengerGenerator {
 		} else {
 			index = current_station - 1 - random.nextInt(current_station);
 		}
-		Station s = l.stations.get(index);
+		Station targetStation = l.stations.get(index);
 		
-		return new Passenger(idGen++, random, station, s,station.router);
+		return new Passenger(idGen++, random, currentStation, targetStation, currentStation.router);
 	}
 }

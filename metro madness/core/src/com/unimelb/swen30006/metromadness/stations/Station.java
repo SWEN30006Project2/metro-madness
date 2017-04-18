@@ -24,15 +24,13 @@ public class Station {
 	public ArrayList<Train> trains;
 	public static final float DEPARTURE_TIME = 2;
 	public PassengerRouter router;
-	private boolean isCargoStation;
 
-	public Station(float x, float y, PassengerRouter router, String name, boolean isCargoStation){
+	public Station(float x, float y, PassengerRouter router, String name){
 		this.name = name;
 		this.router = router;
 		this.position = new Point2D.Float(x,y);
 		this.lines = new ArrayList<Line>();
 		this.trains = new ArrayList<Train>();
-		this.isCargoStation = isCargoStation;
 	}
 	
 	public void registerLine(Line l){
@@ -109,8 +107,4 @@ public class Station {
 	/*public Passenger generatePassenger(int id, Random random, Station s) {
 		return new Passenger(id, random, this, s,this.router);
 	}*/
-	
-	public boolean isCargoStation(){
-		return this.isCargoStation;
-	}
 }

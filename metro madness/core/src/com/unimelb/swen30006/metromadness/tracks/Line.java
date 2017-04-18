@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.unimelb.swen30006.metromadness.stations.CargoStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 
 public class Line {
@@ -113,6 +114,17 @@ public class Line {
 		for(Track t: this.tracks){
 			t.render(renderer);
 		}	
-	} 
+	}
+	
+	public boolean twoMoreCargoStation(){
+		int count = 0;
+		for(Station station : stations){
+			if(station.getClass() == CargoStation.class)
+				count++;
+			if(count == 2)
+				return true;
+		}
+		return false;
+	}
 	
 }

@@ -1,8 +1,8 @@
 package com.unimelb.swen30006.metromadness.passengers;
 
-import java.util.ArrayList;
 import java.util.Random;
 
+import com.unimelb.swen30006.metromadness.stations.CargoStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.routers.*;
 
@@ -36,7 +36,7 @@ public class Passenger {
 		return cargo;
 	}
 	public Cargo generateCargo(Random random, Station station){
-		if(station.isCargoStation())
+		if(station.getClass() == CargoStation.class)
 		    return new Cargo(random.nextInt(51));
 		else
 			return new Cargo(WITHOUT_CARGO);
