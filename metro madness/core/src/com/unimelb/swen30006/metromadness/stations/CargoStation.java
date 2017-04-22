@@ -16,14 +16,26 @@ import com.unimelb.swen30006.metromadness.trains.LargeCargoTrain;
 import com.unimelb.swen30006.metromadness.trains.SmallCargoTrain;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This class is for Cargo station, which is the subclass of the Station class. 
+ * Passengers generated at cargo station will have up to 50kg cargos and can only 
+ * embark cargo train.
+ */
 public class CargoStation extends Station{
-    
+	// Logger
 	private static Logger logger = LogManager.getLogger();
-	
 	public CargoPassengerGenerator g;
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
-	
+
+	/*
+	 * Constructor
+	 * @param x value
+	 * @param y value
+	 * @param passenger router
+	 * @param station name
+	 * @param maximum vloume
+	 */
 	public CargoStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
@@ -31,6 +43,11 @@ public class CargoStation extends Station{
 		this.maxVolume = maxPax;
 	}
 	
+	/*
+	 * add the train into the station
+	 * @param the arrived train
+	 */
+	@Override
 	public void arrivedTrain(Train t) throws Exception {
 		if(trains.size() >= PLATFORMS){
 			throw new Exception();
@@ -43,8 +60,9 @@ public class CargoStation extends Station{
 				Passenger p = pIter.next();
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
+					//passengers at cargo station can only embark cargo train
 					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
-					t.embark(p);
+					    t.embark(p);
 					pIter.remove();
 				} catch (Exception e){
 					// Do nothing, already waiting
@@ -61,6 +79,7 @@ public class CargoStation extends Station{
 			for(Passenger p: ps){
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
+					//passengers at cargo station can only embark cargo train
 					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
 					    t.embark(p);
 				} catch(Exception e){
@@ -70,6 +89,10 @@ public class CargoStation extends Station{
 		}
 	}
 	
+	/*
+	 * render the station
+	 * @param shape renderer
+	 */
 	@Override
 	public void render(ShapeRenderer renderer){
 		float radius = RADIUS;

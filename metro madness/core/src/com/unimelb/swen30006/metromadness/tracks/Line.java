@@ -20,7 +20,12 @@ public class Line {
 	// The tracks on this line between stations
 	public ArrayList<Track> tracks;
 		
-	// Create a line
+	/*
+	 * Constructor
+	 * @param the color of the stations on this line
+	 * @param the color of the line
+	 * @param the name of the line
+	 */
 	public Line(Color stationColour, Color lineColour, String name){
 		// Set the line colour
 		this.lineColour = stationColour;
@@ -32,7 +37,11 @@ public class Line {
 		this.tracks = new ArrayList<Track>();
 	}
 	
-	
+	/*
+	 * add a station to this line, and generate the track that connects this new station
+	 * @param the station that should be added to this line
+	 * @param double track is true, normal track is false
+	 */
 	public void addStation(Station s, Boolean two_way){
 		// We need to build the track if this is adding to existing stations
 		if(this.stations.size() > 0){
@@ -59,7 +68,10 @@ public class Line {
 		return "Line [lineColour=" + lineColour + ", trackColour=" + trackColour + ", name=" + name + "]";
 	}
 
-
+	/*
+	 * check if a station is at the end of the line
+	 * @param the station
+	 */
 	public boolean endOfLine(Station s) throws Exception{
 		if(this.stations.contains(s)){
 			int index = this.stations.indexOf(s);
@@ -69,8 +81,11 @@ public class Line {
 		}
 	}
 
-	
-	
+	/*
+	 * Given the station and the direction, retrieve the next track
+	 * @param the current station
+	 * @param the direction
+	 */
 	public Track nextTrack(Station currentStation, boolean forward) throws Exception {
 		if(this.stations.contains(currentStation)){
 			// Determine the track index
@@ -90,6 +105,11 @@ public class Line {
 		}
 	}
 	
+	/*
+	 * Given the station and the direction, retrieve the next station
+	 * @param the current station
+	 * @param the direction
+	 */
 	public Station nextStation(Station s, boolean forward) throws Exception{
 		if(this.stations.contains(s)){
 			int curIndex = this.stations.lastIndexOf(s);
@@ -106,6 +126,10 @@ public class Line {
 		}
 	}
 	
+	/*
+	 * render the line
+	 * @param shape renderer
+	 */
 	public void render(ShapeRenderer renderer){
 		// Set the color to our line
 		renderer.setColor(trackColour);
@@ -116,6 +140,10 @@ public class Line {
 		}	
 	}
 	
+	/*
+	 * check if this line contains two more cargo stations
+	 * @return if this line contains two more cargo stations, return true; else return false
+	 */
 	public boolean twoMoreCargoStation(){
 		int count = 0;
 		for(Station station : stations){

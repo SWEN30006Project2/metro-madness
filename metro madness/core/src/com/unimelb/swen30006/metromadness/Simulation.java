@@ -8,17 +8,18 @@ import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This class is used to create the simulation
+ */
 public class Simulation {
 	
-	public ArrayList<Station> stations;
-	public ArrayList<Line> lines;
-	public ArrayList<Train> trains;
+	private ArrayList<Station> stations;
+	private ArrayList<Line> lines;
+	private ArrayList<Train> trains;
 	
 	public Simulation(String fileName){
 		// Create a map reader and read in the file
 		StandardMapReader m = new MapReader(fileName);
-		
-		//m.process();
 		
 		// Create a list of lines
 		this.lines = new ArrayList<Line>();

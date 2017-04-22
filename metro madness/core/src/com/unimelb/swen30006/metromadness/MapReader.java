@@ -26,15 +26,23 @@ import com.unimelb.swen30006.metromadness.trains.SmallCargoTrain;
 import com.unimelb.swen30006.metromadness.trains.SmallPassengerTrain;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This class is used to read the information from the XML file and 
+ * generate the instances of Train, Station and Line
+ */
 public class MapReader implements StandardMapReader{
+	
+	private ArrayList<Train> trains;
+	private HashMap<String, Station> stations;
+	private HashMap<String, Line> lines;
 
-	public ArrayList<Train> trains;
-	public HashMap<String, Station> stations;
-	public HashMap<String, Line> lines;
+	private boolean processed;
+	private String filename;
 
-	public boolean processed;
-	public String filename;
-
+	/*
+	 * Constructor
+	 * @param file name
+	 */
 	public MapReader(String filename){
 		this.trains = new ArrayList<Train>();
 		this.stations = new HashMap<String, Station>();
@@ -43,6 +51,9 @@ public class MapReader implements StandardMapReader{
 		this.processed = false;
 	}
 
+	/*
+	 * Generate the instances of Train, Station and Line
+	 */
 	public void process(){
 		try {
 			// Build the doc factory
@@ -83,21 +94,34 @@ public class MapReader implements StandardMapReader{
 		}
 	}
 	
+	/*
+	 * get access to the instances of the Train
+	 */
 	public Collection<Train> getTrains(){
 		if(!this.processed) { this.process(); }
 		return this.trains;
 	}
 	
+	/*
+	 * get access to the instances of the Line 
+	 */
 	public Collection<Line> getLines(){
 		if(!this.processed) { this.process(); }
 		return this.lines.values();
 	}
 	
+	/*
+	 * get access to the instances of the Station 
+	 */
 	public Collection<Station> getStations(){
 		if(!this.processed) { this.process(); }
 		return this.stations.values();
 	}
 
+	/*
+	 * generate the instance of train
+	 * @param the element got from the XML file
+	 */
 	private Train processTrain(Element e){
 		// Retrieve the values
 		String type = e.get("type");
@@ -124,6 +148,10 @@ public class MapReader implements StandardMapReader{
 		}
 	}
 
+	/*
+	 * generate the instance of the Station class
+	 * @param the element got from the XML file
+	 */
 	private Station processStation(Element e){
 		String type = e.get("type");
 		String name = e.get("name");
@@ -144,6 +172,11 @@ public class MapReader implements StandardMapReader{
 		}
 	}
 
+	
+	/*
+	 * generate the instance of the Line class
+	 * @param the element got from the XML file
+	 */
 	private Line processLine(Element e){
 		Color stationCol = extractColour(e.getChildByName("station_colour"));
 		Color lineCol = extractColour(e.getChildByName("line_colour"));
@@ -159,6 +192,10 @@ public class MapReader implements StandardMapReader{
 		return l;
 	}
 	
+	/*
+	 * generate the passenger router
+	 * @param the type of the router
+	 */
 	private PassengerRouter createRouter(String type){
 		if(type.equals("simple")){
 			return new SimpleRouter();
@@ -166,6 +203,10 @@ public class MapReader implements StandardMapReader{
 		return null;
 	}
 	
+	/*
+	 * generate the color
+	 * @param the element got from the XML file
+	 */
 	private Color extractColour(Element e){
 		float red = e.getFloat("red")/255f;
 		float green = e.getFloat("green")/255f;

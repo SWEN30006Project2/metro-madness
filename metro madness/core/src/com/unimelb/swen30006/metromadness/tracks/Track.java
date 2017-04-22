@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This class is the super class of the DualTrack class, any further added track classes
+ * should be inherited from this class
+ */ 
 public class Track {
 	public static final float DRAW_RADIUS=10f;
 	public static final int LINE_WIDTH=6;
@@ -14,6 +18,12 @@ public class Track {
 	public Color trackColour;
 	public boolean occupied;
 	
+	/*
+	 * Constructor
+	 * @param the start point of the track
+	 * @param the end point of the track
+	 * @param the color of the track
+	 */
 	public Track(Point2D.Float start, Point2D.Float end, Color trackCol){
 		this.startPos = start;
 		this.endPos = end;
@@ -21,32 +31,40 @@ public class Track {
 		this.occupied = false;
 	}
 	
+	/*
+	 * render the track
+	 * @param shape renderer
+	 */
 	public void render(ShapeRenderer renderer){
 		renderer.rectLine(startPos.x, startPos.y, endPos.x, endPos.y, LINE_WIDTH);
 	}
 	
+	/*
+	 * check if the track is occupied
+	 * @param the direction
+	 */
 	public boolean canEnter(boolean forward){
 		return !this.occupied;
 	}
-	
-	/*public void enter(Train t){
-		this.occupied = true;
-	}*/
 	
 	@Override
 	public String toString() {
 		return "Track [startPos=" + startPos + ", endPos=" + endPos + ", trackColour=" + trackColour + ", occupied="
 				+ occupied + "]";
 	}
-
-	/*public void leave(Train t){
-		this.occupied = false;
-	}*/
 	
+	/*
+	 * set the track state to occupied
+	 * @param the direction
+	 */
 	public void setOccupied(boolean direction){
 		this.occupied = true;
 	}
 	
+	/*
+	 * set the track state to available
+	 * @param the direction
+	 */
 	public void setAvailable(boolean direction){
 		this.occupied = false;
 	}

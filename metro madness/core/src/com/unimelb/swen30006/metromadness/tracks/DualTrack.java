@@ -6,17 +6,29 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This is class is the subclass of the Track class
+ */
 public class DualTrack extends Track {
-
 	public boolean forwardOccupied;
 	public boolean backwardOccupied;
 	
+	/*
+	 * Constructor
+	 * @param The start point
+	 * @param The end point
+	 * @param the track color 
+	 */
 	public DualTrack(Float start, Float end, Color col) {
 		super(start, end, col);
 		this.forwardOccupied = false;
 		this.backwardOccupied = false;
 	}
 	
+	/*
+	 * render this track
+	 * @param shape renderer
+	 */
 	public void render(ShapeRenderer renderer){
 		renderer.rectLine(startPos.x, startPos.y, endPos.x, endPos.y, LINE_WIDTH);
 		renderer.setColor(new Color(245f/255f,245f/255f,245f/255f,0.5f).lerp(this.trackColour, 0.5f));
@@ -24,15 +36,10 @@ public class DualTrack extends Track {
 		renderer.setColor(this.trackColour);
 	}
 	
-	/*@Override
-	public void enter(Train t){
-		if(t.forward){
-			this.forwardOccupied = true;
-		} else {
-			this.backwardOccupied = true;
-		}
-	}*/
-
+	/*
+	 * check if the train can enter this track
+	 * @param the moving direction of the train
+	 */
 	@Override
 	public boolean canEnter(boolean forward) {
 		if(forward){
@@ -41,16 +48,11 @@ public class DualTrack extends Track {
 			return !this.backwardOccupied;
 		}
 	}
-
-	/*@Override
-	public void leave(Train t) {
-		if(t.forward){
-			this.forwardOccupied = false;
-		} else {
-			this.backwardOccupied = false;
-		}
-	}*/
 	
+	/*
+	 * set the track state to occupied in some direction
+	 * @param the direction
+	 */
 	@Override
 	public void setOccupied(boolean direction){
 		if(direction){
@@ -60,6 +62,10 @@ public class DualTrack extends Track {
 		}
 	}
 	
+	/*
+	 * set the track state to available in some direction
+	 * @param the direction
+	 */
 	@Override
 	public void setAvailable(boolean direction){
 		if(direction){

@@ -3,6 +3,10 @@ package com.unimelb.swen30006.metromadness.routers;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
 import com.unimelb.swen30006.metromadness.stations.Station;
 
+/*
+ * This class implements the interface of Passengerrouter, which is 
+ * used to control
+ */
 public class SimpleRouter implements PassengerRouter {
 
 	@Override

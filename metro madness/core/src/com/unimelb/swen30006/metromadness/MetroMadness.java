@@ -1,6 +1,7 @@
 package com.unimelb.swen30006.metromadness;
 
 import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -14,17 +15,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 
+/*
+ * This class is used to create the basic system of the whole simulation
+ */
 public class MetroMadness extends ApplicationAdapter {
-	
-	
-
 	// The width of the world in unitless dimensions
-    static final int WORLD_WIDTH = 1200;
-    static final int WORLD_HEIGHT = 1200;
+    private static final int WORLD_WIDTH = 1200;
+    private static final int WORLD_HEIGHT = 1200;
 
     // Viewport state
-    int VIEWPORT_WIDTH=200;
-	float viewport_width;
+    private int VIEWPORT_WIDTH=200;
+	private float viewport_width;
 
 	// Data for simulation, rendering and camera.
 	Simulation sim;

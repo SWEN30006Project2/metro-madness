@@ -14,14 +14,26 @@ import com.unimelb.swen30006.metromadness.routers.PassengerRouter;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/*
+ * This class is for active station, which is a subclass of the Station class.
+ * Passengers generated at this station will have zero cargos 
+ */
 public class ActiveStation extends Station {
 	// Logger
 	private static Logger logger = LogManager.getLogger();
-	
+	//passenger generator
 	public PassengerGenerator g;
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 	
+	/*
+	 * Constructor
+	 * @param x value
+	 * @param y value
+	 * @param passenger router
+	 * @param station name
+	 * @param maximum volume
+	 */
 	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
@@ -29,44 +41,11 @@ public class ActiveStation extends Station {
 		this.maxVolume = maxPax;
 	}
 	
+	/*
+	 * add the train into the station
+	 * @param the arrived train
+	 */
 	@Override
-	/*public void enter(Train t) throws Exception {
-		if(trains.size() >= PLATFORMS){
-			throw new Exception();
-		} else {
-			// Add the train
-			this.trains.add(t);
-			// Add the waiting passengers
-			Iterator<Passenger> pIter = this.waiting.iterator();
-			while(pIter.hasNext()){
-				Passenger p = pIter.next();
-				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
-					pIter.remove();
-				} catch (Exception e){
-					// Do nothing, already waiting
-					break;
-				}
-			}
-			
-			//Do not add new passengers if there are too many already
-			if (this.waiting.size() > maxVolume){
-				return;
-			}
-			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
-			for(Passenger p: ps){
-				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
-				} catch(Exception e){
-					this.waiting.add(p);
-				}
-			}
-		}
-	}*/
-	
 	public void arrivedTrain(Train t) throws Exception {
 		if(trains.size() >= PLATFORMS){
 			throw new Exception();
@@ -104,6 +83,10 @@ public class ActiveStation extends Station {
 		}
 	}
 	
+	/*
+	 * render the station
+	 * @param shape renderer
+	 */
 	public void render(ShapeRenderer renderer){
 		float radius = RADIUS;
 		for(int i=0; (i<this.lines.size() && i<MAX_LINES); i++){
