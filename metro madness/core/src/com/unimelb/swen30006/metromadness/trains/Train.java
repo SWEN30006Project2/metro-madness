@@ -16,6 +16,12 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.tracks.Track;
 import com.unimelb.swen30006.metromadness.trains.Train.State;
 
+/**
+ * this class represent is the  super class of the SmallCargoTrain, SmallPassengerTrain, BigPassengerTrain,
+ * LargePassengerTrain. Any other train to be added in the later update should be inherited from this class 
+ */
+
+
 public class Train {
 	// Logger
 	protected static Logger logger = LogManager.getLogger();
@@ -57,8 +63,14 @@ public class Train {
 	
 	
 	public State previousState = null;
-
 	
+	/**
+	 * Constructor
+	 * @param train line
+	 * @param strat station
+	 * @param train's heading direction
+	 * @param the train's name
+	 */
 	public Train(Line trainLine, Station start, boolean forward, String name){
 		this.trainLine = trainLine;
 		this.station = start;
@@ -67,7 +79,13 @@ public class Train {
 		this.passengers = new ArrayList<Passenger>();
 		this.name = name;
 	}
-
+	
+	
+	/**
+	 * This method determines the transition between the
+	 * different states of the train
+	 * @param delta value
+	 */
 	public void update(float delta){
 		// Update all passengers
 		for(Passenger p: this.passengers){
@@ -186,7 +204,11 @@ public class Train {
 		}
 
 	}
-
+	
+	/**
+	 * render the train moving status on the simulation
+	 * @param delta value
+	 */
 	public void move(float delta){
 		// Work out where we're going
 		float angle = angleAlongLine(this.pos.x,this.pos.y,this.station.position.x,this.station.position.y);
@@ -195,10 +217,17 @@ public class Train {
 		this.pos.setLocation(newX, newY);
 	}
 
+	/**
+	 * passenger embark into the train
+	 * @param passenger
+	 * */
 	public void embark(Passenger p) throws Exception {
 		throw new Exception();
 	}
-
+	
+	/**
+	 * disembark passengers when they reached their destination
+	 * */
 
 	public ArrayList<Passenger> disembark(){
 		ArrayList<Passenger> disembarking = new ArrayList<Passenger>();
@@ -213,20 +242,38 @@ public class Train {
 		}
 		return disembarking;
 	}
-
+	
+	/**
+	 * Override the toString() method
+	 */
 	@Override
 	public String toString() {
 		return "Train [line=" + this.trainLine.name +", departureTimer=" + departureTimer + ", pos=" + pos + ", forward=" + forward + ", state=" + state
 				+ ", numTrips=" + numTrips + ", disembarked=" + disembarked + "]";
 	}
-
+	
+	/**
+	 * decide whether the train is in station
+	 */
 	public boolean inStation(){
 		return (this.state == State.IN_STATION || this.state == State.READY_DEPART);
 	}
 	
+	/**
+	 * calculate the angle along the line
+	 * @param x1 value
+	 * @param y1 value
+	 * @param x2 value
+	 * @param y2 value
+	 * */
 	public float angleAlongLine(float x1, float y1, float x2, float y2){	
 		return (float) Math.atan2((y2-y1),(x2-x1));
 	}
+	
+	/**
+	 * render this train
+	 * @param shape renderer
+	 * */
 
 	public void render(ShapeRenderer renderer){
 		if(!this.inStation()){
@@ -236,14 +283,23 @@ public class Train {
 		}
 	}
 	
+	/**
+	 * train enter the track, set track as occupied
+	 */
 	public void enterTrack(){
 		this.track.setOccupied(this.forward);
 	}
 	
+	/**
+	 * train leave the track,set track as avaliable
+	 */
 	public void leaveTrack(){
 		this.track.setAvailable(this.forward);
 	}
 	
+	/**
+	 * train enter the station
+	 */
 	public void enterStation(){
 		try{
 		    this.station.arrivedTrain(this);
@@ -251,6 +307,9 @@ public class Train {
 		}
 	}
 	
+	/**
+	 * train leave the station
+	 */
 	public void leaveStation(){
 		try{
 		    this.station.departedTrain(this);

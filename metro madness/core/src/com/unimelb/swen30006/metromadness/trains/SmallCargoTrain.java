@@ -11,6 +11,11 @@ import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.trains.Train.State;
 
+/**
+ *  BigCargoTrain class extends from the train class, only start and stop and 
+ *  the cargo station. Embarking passengers with cargo at cargo station. 
+ * */
+
 public class SmallCargoTrain extends Train {
 	
 	public static final int CARGO_CAPACITY =  200;
@@ -21,6 +26,10 @@ public class SmallCargoTrain extends Train {
 		super(trainLine, start, foward, name);
 	}
 	
+	/**override the embark method from the train class. Embarking passenger should not exceed 
+	 * both cargo and passenger capacity.
+	 * */
+	
 	@Override
 	public void embark(Passenger passenger) throws Exception{
 		if(this.passengers.size()+1<=PASSENGER_CAPACITY && this.currentCargo+ passenger.getCargo().getWeight()<= CARGO_CAPACITY){
@@ -30,6 +39,10 @@ public class SmallCargoTrain extends Train {
 			throw new Exception();
 		}
 	}
+	
+	/**
+	 * override the update method from the train class
+	 * */
 	
 	@Override
 	public void update(float delta){
@@ -166,6 +179,9 @@ public class SmallCargoTrain extends Train {
 
 	}
 	
+	/**
+	 * override the render method from the train class
+	 * */
 	@Override
 	public void render(ShapeRenderer renderer){
 		if(!this.inStation()){

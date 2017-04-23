@@ -6,6 +6,10 @@ import com.unimelb.swen30006.metromadness.passengers.Passenger;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 
+/**
+ * this class extends from the train class, have 10 passengers capacity
+ * */
+
 public class SmallPassengerTrain extends Train {
 	
 	public static final int PASSENGER_CAPACITY =  10;
@@ -14,6 +18,7 @@ public class SmallPassengerTrain extends Train {
 		super(trainLine, start, forward, name);
 	}
 
+	/**override the embark method from the train class*/
 	@Override
 	public void embark(Passenger p) throws Exception {
 		if(this.passengers.size() > PASSENGER_CAPACITY ){
@@ -22,6 +27,7 @@ public class SmallPassengerTrain extends Train {
 		this.passengers.add(p);
 	}
 	
+	/**override the render method from the train class*/
 	@Override
 	public void render(ShapeRenderer renderer){
 		if(!this.inStation()){
