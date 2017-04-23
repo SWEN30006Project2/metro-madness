@@ -9,9 +9,7 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
 /*
  * This class is used to generate passengers that at Active stations
  */
-public class PassengerGenerator implements PassengerGeneratorAdapter{
-	// Passenger id generator
-	static protected int idGen = 1;
+public class PassengerGenerator extends PassengerGeneratorAdapter{
 	// The station that passengers are getting on
 	public Station currentStation;
 	// The line they are travelling on

@@ -7,6 +7,8 @@ import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 
 public class SmallPassengerTrain extends Train {
+	
+	public static final int PASSENGER_CAPACITY =  10;
 
 	public SmallPassengerTrain(Line trainLine, Station start, boolean forward, String name) {
 		super(trainLine, start, forward, name);

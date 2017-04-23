@@ -14,6 +14,7 @@ import com.unimelb.swen30006.metromadness.trains.Train.State;
 public class SmallCargoTrain extends Train {
 	
 	public static final int CARGO_CAPACITY =  200;
+	public static final int PASSENGER_CAPACITY =  10;
 	public int currentCargo;
 	
 	public SmallCargoTrain (Line trainLine, Station start, boolean foward, String name){
@@ -21,14 +22,13 @@ public class SmallCargoTrain extends Train {
 	}
 	
 	@Override
-	public void embark(Passenger p) throws Exception{
-		if(this.passengers.size()+1<=10&&this.currentCargo+ p.getCargo().getWeight()<=CARGO_CAPACITY){
-			this.passengers.add(p);
-			this.currentCargo = this.currentCargo+p.getCargo().getWeight();
+	public void embark(Passenger passenger) throws Exception{
+		if(this.passengers.size()+1<=PASSENGER_CAPACITY && this.currentCargo+ passenger.getCargo().getWeight()<= CARGO_CAPACITY){
+			this.passengers.add(passenger);
+			this.currentCargo += passenger.getCargo().getWeight();
 		}else{
 			throw new Exception();
 		}
-		
 	}
 	
 	@Override
@@ -97,7 +97,7 @@ public class SmallCargoTrain extends Train {
 		case READY_DEPART:
 			// When ready to depart, check that the track is clear and if
 			// so, then occupy it if possible.
-			if(this.track.canEnter(this.forward)){
+			if(this.track.canEnter(this.forward) && this.trainLine.twoMoreCargoStation()){
 				try {
 					// Find the next
 					Station next = this.trainLine.nextStation(this.station, this.forward);
@@ -110,6 +110,8 @@ public class SmallCargoTrain extends Train {
 				}
 				enterTrack();
 				this.state = State.ON_ROUTE;
+			}else{
+				hasChanged = false;
 			}
 			
 			if(hasChanged){
@@ -120,13 +122,17 @@ public class SmallCargoTrain extends Train {
 			if(hasChanged){
 				logger.info(this.name+ " enroute to "+this.station.name+" Station!");
 			}
-			
-			// Checkout if we have reached the new station
+			// Checkout if we have reached the new cargo station
 			if(this.pos.distance(this.station.position) < 10 && this.station.getClass() == CargoStation.class){
 				this.state = State.WAITING_ENTRY;
-			} else if(this.pos.distance(this.station.position) < 10 && this.station.getClass() != CargoStation.class){
+			}else if(this.pos.distance(this.station.position) < 10 && this.station.getClass() != CargoStation.class){
 				try {
-					// Find the next
+					boolean endOfLine = this.trainLine.endOfLine(this.station);
+					if(endOfLine){
+						this.forward = !this.forward;
+					}
+					this.track = this.trainLine.nextTrack(this.station, this.forward);
+					//Find the next station
 					Station next = this.trainLine.nextStation(this.station, this.forward);
 					this.station = next;
 					previousState = null;

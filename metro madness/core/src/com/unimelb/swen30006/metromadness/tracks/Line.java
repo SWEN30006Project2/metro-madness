@@ -42,7 +42,7 @@ public class Line {
 	 * @param the station that should be added to this line
 	 * @param double track is true, normal track is false
 	 */
-	public void addStation(Station s, Boolean two_way){
+	public void addStation(Station station, Boolean two_way){
 		// We need to build the track if this is adding to existing stations
 		if(this.stations.size() > 0){
 			// Get the last station
@@ -51,16 +51,16 @@ public class Line {
 			// Generate a new track
 			Track t;
 			if(two_way){
-				t = new DualTrack(last.position, s.position, this.trackColour);
+				t = new DualTrack(last.position, station.position, this.trackColour);
 			} else {
-				t = new Track(last.position, s.position, this.trackColour);
+				t = new Track(last.position, station.position, this.trackColour);
 			}
 			this.tracks.add(t);
 		}
 		
 		// Add the station
-		s.registerLine(this);
-		this.stations.add(s);
+		station.registerLine(this);
+		this.stations.add(station);
 	}
 	
 	@Override
@@ -72,9 +72,9 @@ public class Line {
 	 * check if a station is at the end of the line
 	 * @param the station
 	 */
-	public boolean endOfLine(Station s) throws Exception{
-		if(this.stations.contains(s)){
-			int index = this.stations.indexOf(s);
+	public boolean endOfLine(Station station) throws Exception{
+		if(this.stations.contains(station)){
+			int index = this.stations.indexOf(station);
 			return (index==0 || index==this.stations.size()-1);
 		} else {
 			throw new Exception();
@@ -110,9 +110,9 @@ public class Line {
 	 * @param the current station
 	 * @param the direction
 	 */
-	public Station nextStation(Station s, boolean forward) throws Exception{
-		if(this.stations.contains(s)){
-			int curIndex = this.stations.lastIndexOf(s);
+	public Station nextStation(Station station, boolean forward) throws Exception{
+		if(this.stations.contains(station)){
+			int curIndex = this.stations.lastIndexOf(station);
 			if(forward){ curIndex+=1;}else{ curIndex -=1;}
 			
 			// Check index is within range

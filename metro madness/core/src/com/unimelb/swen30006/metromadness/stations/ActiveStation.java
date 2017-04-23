@@ -22,7 +22,7 @@ public class ActiveStation extends Station {
 	// Logger
 	private static Logger logger = LogManager.getLogger();
 	//passenger generator
-	public PassengerGenerator g;
+	public PassengerGenerator passengerGenerator;
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 	
@@ -37,7 +37,7 @@ public class ActiveStation extends Station {
 	public ActiveStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
-		this.g = new PassengerGenerator(this, this.lines, maxPax);
+		this.passengerGenerator = new PassengerGenerator(this, this.lines, maxPax);
 		this.maxVolume = maxPax;
 	}
 	
@@ -46,19 +46,19 @@ public class ActiveStation extends Station {
 	 * @param the arrived train
 	 */
 	@Override
-	public void arrivedTrain(Train t) throws Exception {
+	public void arrivedTrain(Train train) throws Exception {
 		if(trains.size() >= PLATFORMS){
 			throw new Exception();
 		} else {
 			// Add the train
-			this.trains.add(t);
+			this.trains.add(train);
 			// Add the waiting passengers
 			Iterator<Passenger> pIter = this.waiting.iterator();
 			while(pIter.hasNext()){
 				Passenger p = pIter.next();
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
+					train.embark(p);
 					pIter.remove();
 				} catch (Exception e){
 					// Do nothing, already waiting
@@ -71,11 +71,11 @@ public class ActiveStation extends Station {
 				return;
 			}
 			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
+			Passenger[] ps = this.passengerGenerator.generatePassengers();
 			for(Passenger p: ps){
 				try {
 					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
-					t.embark(p);
+					train.embark(p);
 				} catch(Exception e){
 					this.waiting.add(p);
 				}

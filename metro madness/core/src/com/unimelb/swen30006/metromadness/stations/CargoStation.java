@@ -24,7 +24,7 @@ import com.unimelb.swen30006.metromadness.trains.Train;
 public class CargoStation extends Station{
 	// Logger
 	private static Logger logger = LogManager.getLogger();
-	public CargoPassengerGenerator g;
+	public CargoPassengerGenerator cargoPassengerGenerator;
 	public ArrayList<Passenger> waiting;
 	public float maxVolume;
 
@@ -34,12 +34,12 @@ public class CargoStation extends Station{
 	 * @param y value
 	 * @param passenger router
 	 * @param station name
-	 * @param maximum vloume
+	 * @param maximum volume
 	 */
 	public CargoStation(float x, float y, PassengerRouter router,String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
-		this.g = new CargoPassengerGenerator(this, this.lines, maxPax);
+		this.cargoPassengerGenerator = new CargoPassengerGenerator(this, this.lines, maxPax);
 		this.maxVolume = maxPax;
 	}
 	
@@ -48,23 +48,24 @@ public class CargoStation extends Station{
 	 * @param the arrived train
 	 */
 	@Override
-	public void arrivedTrain(Train t) throws Exception {
+	public void arrivedTrain(Train train) throws Exception {
 		if(trains.size() >= PLATFORMS){
 			throw new Exception();
 		} else {
 			// Add the train
-			this.trains.add(t);
+			this.trains.add(train);
 			// Add the waiting passengers
 			Iterator<Passenger> pIter = this.waiting.iterator();
 			while(pIter.hasNext()){
 				Passenger p = pIter.next();
 				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
 					//passengers at cargo station can only embark cargo train
-					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
-					    t.embark(p);
-					pIter.remove();
-				} catch (Exception e){
+					if(train.getClass() == LargeCargoTrain.class || train.getClass() == SmallCargoTrain.class){
+						train.embark(p);
+					    pIter.remove();
+					    logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg cargo embarking at "+this.name+" heading to "+p.destination.name);
+					}
+				 }catch (Exception e){
 					// Do nothing, already waiting
 					break;
 				}
@@ -73,15 +74,18 @@ public class CargoStation extends Station{
 			if(this.waiting.size() > maxVolume){
 				return;
 			}
-			
+
 			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
+			Passenger[] ps = this.cargoPassengerGenerator.generatePassengers();
 			for(Passenger p: ps){
 				try {
-					logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
 					//passengers at cargo station can only embark cargo train
-					if(t.getClass() == LargeCargoTrain.class || t.getClass() == SmallCargoTrain.class)
-					    t.embark(p);
+					if(train.getClass() == LargeCargoTrain.class || train.getClass() == SmallCargoTrain.class){
+						logger.info("Passenger "+p.id+" carrying "+p.getCargo().getWeight() +" kg embarking at "+this.name+" heading to "+p.destination.name);
+						train.embark(p);
+					} else{
+						throw new Exception();
+					}
 				} catch(Exception e){
 					this.waiting.add(p);
 				}

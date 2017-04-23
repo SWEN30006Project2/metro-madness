@@ -10,9 +10,7 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
 /*
  * This class is used to generate passengers at cargo stations
  */
-public class CargoPassengerGenerator implements PassengerGeneratorAdapter {
-	    // Passenger id generator
-		static protected int idGen = 1;
+public class CargoPassengerGenerator extends PassengerGeneratorAdapter{
 		// The station that passengers are getting on
 		public Station currentStation;
 		// The line they are travelling on
@@ -55,42 +53,59 @@ public class CargoPassengerGenerator implements PassengerGeneratorAdapter {
 			if(line.twoMoreCargoStation())
 				twoMoreCargoStationsLines.add(line);
 		}
-		// Pick a random station from the line
-		Line line = twoMoreCargoStationsLines.get(random.nextInt(this.lines.size()));
 		
+		// Pick a random station from the line
+		Line line;
+		if(twoMoreCargoStationsLines.size()>0){
+	        line = twoMoreCargoStationsLines.get(random.nextInt(twoMoreCargoStationsLines.size()));
+		}else{
+		    return null;
+		}
+
 		int current_station = line.stations.indexOf(this.currentStation);
 		//pick up a random direction
 		boolean forward = random.nextBoolean();
-		
-		/*// If we are the end of the line then set our direction forward or backward
+
+		// If we are the end of the line then set our direction forward or backward
 		if(current_station == 0){
 			forward = true;
 		}else if (current_station == line.stations.size()-1){
 			forward = false;
-		}*/
-		
+		}
+
 		//to store cargo stations in this line
 		ArrayList<Station> cargoStations = new ArrayList<Station>(); 
-		
+
+		//find the next cargo station
 		if(forward == true){
 			//check if there exist at least one cargo station in the direction
 			for(int i =current_station+1; i<line.stations.size(); i++){
-				if(line.stations.get(i).getClass() == CargoStation.class)
+				if(line.stations.get(i) instanceof CargoStation){
 					cargoStations.add(line.stations.get(i));
+				}	
 			}
 			//if no cargo stations in the direction, change direction
-			if(cargoStations.isEmpty())
-				forward = false;
-		}
-        if(forward == false){
+			if(cargoStations.isEmpty()){
+				for(int i =current_station-1; i>=0; i--){
+					if(line.stations.get(i).getClass() == CargoStation.class){
+						cargoStations.add(line.stations.get(i));
+					}	
+				}
+			}
+		}else{
 			for(int i =current_station-1; i>=0; i--){
 				if(line.stations.get(i).getClass() == CargoStation.class)
 					cargoStations.add(line.stations.get(i));
 			}
-			if(cargoStations.isEmpty())
-				forward = true;
+			if(cargoStations.isEmpty()){
+				for(int i =current_station+1; i<line.stations.size(); i++){
+					if(line.stations.get(i) instanceof CargoStation){
+						cargoStations.add(line.stations.get(i));
+					}	
+				}
+			}	
 		}
-        
+		
 		//pick up a random target station in the drection 
 		int index = random.nextInt(cargoStations.size());
 

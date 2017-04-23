@@ -8,6 +8,8 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
 
 public class BigPassengerTrain extends Train {
 
+	public static final int PASSENGER_CAPACITY =  80;
+	
 	public BigPassengerTrain(Line trainLine, Station start, boolean forward, String name) {
 		super(trainLine, start, forward, name);
 	}
