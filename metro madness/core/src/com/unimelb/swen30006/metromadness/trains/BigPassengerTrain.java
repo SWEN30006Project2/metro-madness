@@ -16,7 +16,7 @@ public class BigPassengerTrain extends Train {
 	
 	@Override
 	public void embark(Passenger p) throws Exception {
-		if(this.passengers.size() > 80){
+		if(this.passengers.size() > PASSENGER_CAPACITY){
 			throw new Exception();
 		}
 		this.passengers.add(p);
